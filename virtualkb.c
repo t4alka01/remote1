@@ -120,8 +120,19 @@ module_param_cb( column_nbr, &column_nbr_pops, &column_nbr, S_IRUGO | S_IWUSR );
 
 static int my_buf_ptr_get( char *buffer, const struct kernel_param *kp )
 {
-    
-    return scnprintf( buffer, PAGE_SIZE, "%s", *(( char ** )kp -> arg ));
+    int i, j;
+
+    for( i = j = 0; i < BUF_SIZE; i++ )
+    {
+	buffer[ j++ ] = my_buf[ i ];
+	if( ( ( i + 1 ) % column_nbr ) == 0 && i != 0 )
+	{
+		buffer[ j++ ] = '\n'; 
+	}
+    }
+    buffer[ j ] = '\n'; 
+    return j;
+//    return scnprintf( buffer, PAGE_SIZE, "%s", *(( char ** )kp -> arg ));
 }
 
 static struct kernel_param_ops my_buf_ptr_pops =
