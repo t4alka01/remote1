@@ -1,0 +1,19 @@
+#!/bin/bash
+if ! ((`lsmod | grep i2c-bcm2708 | wc -l`))
+  then 
+    modprobe i2c-bcm2708
+  fi
+if ! ((`lsmod | grep gpio-mcp23s08 | wc -l`))
+  then 
+    modprobe gpio-mcp23s08
+  fi
+if ((`lsmod | grep lcd | wc -l`))
+  then 
+    rmmod lcd
+  fi
+insmod lcd.ko
+if ((`ls /dev | grep lcd | wc -l`))
+  then 
+    chmod 666 /dev/lcd
+  fi
+
