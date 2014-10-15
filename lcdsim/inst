@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if ((`lsmod | grep lcdsim | wc -l`))
+  then 
+    rmmod lcdsim
+  fi
+insmod lcdsim.ko
+if ((`ls /dev | grep lcdsim | wc -l`))
+  then 
+    chmod 666 /dev/lcdsim
+  fi
+
